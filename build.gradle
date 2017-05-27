@@ -3,6 +3,7 @@
 buildscript {
 
     repositories {
+        // using new Google maven repo announced at I/O 2017
         maven { url 'https://maven.google.com' }
         jcenter()
     }
@@ -16,6 +17,7 @@ buildscript {
 
 allprojects {
     repositories {
+        // using new Google maven repo announced at I/O 2017
         maven { url 'https://maven.google.com' }
         jcenter()
     }
