@@ -13,6 +13,13 @@ import android.view.ViewGroup;
 
 public class StoryDetailFragment extends BaseFragment {
 
+    public static StoryDetailFragment newInstance() {
+        Bundle args = new Bundle();
+        StoryDetailFragment fragment = new StoryDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

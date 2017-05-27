@@ -36,7 +36,7 @@ public class BaseActivity extends AppCompatActivity {
                 Toast.makeText(this, "Hey this is sample HackerNew app for PropertyGuru!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_menu_settings:
-                Toast.makeText(this, "Bingo! you reached Settings, leave a message after BEEEEP!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Bingo! you reached Settings, leave a message after the BEEP!", Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
