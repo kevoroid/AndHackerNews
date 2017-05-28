@@ -1,17 +1,14 @@
 package com.kevoroid.andhackernews.ui;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.Toast;
 
 import com.kevoroid.andhackernews.R;
 
 public class MainActivity extends BaseActivity {
 
-    private boolean mLastBackPressedState = false;
     private Fragment mStoryListFragment;
 
     @Override
