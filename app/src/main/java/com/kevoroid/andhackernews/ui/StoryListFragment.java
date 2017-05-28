@@ -56,6 +56,7 @@ public class StoryListFragment extends BaseFragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.story_list_recyclerview);
         mPullDownRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.story_list_pull_down_refresh);
 
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(getResources().getDimensionPixelSize(R.dimen.recycler_view_space)));
