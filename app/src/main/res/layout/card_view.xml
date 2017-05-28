@@ -6,6 +6,9 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/activity_margin"
     android:layout_marginStart="@dimen/activity_margin"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="3dp"
     app:cardElevation="4dp">
 
@@ -19,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="6dp"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/text_normal"
             android:textStyle="bold"
             tools:text="Best Hacker new title ever!" />
 
@@ -30,6 +33,7 @@
             android:paddingBottom="6dp"
             android:paddingEnd="6dp"
             android:paddingStart="6dp"
+            android:textColor="@color/text_secondary"
             tools:text="blah blah blah" />
 
     </LinearLayout>
