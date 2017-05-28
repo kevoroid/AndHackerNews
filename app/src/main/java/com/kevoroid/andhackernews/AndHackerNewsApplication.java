@@ -22,10 +22,12 @@ public class AndHackerNewsApplication extends Application {
     }
 
     private void initVolley() {
-        mRequestQueue = Volley.newRequestQueue(this);
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(this);
+        }
     }
 
-    public static RequestQueue getRequestQueue() {
+    public static synchronized RequestQueue getRequestQueue() {
         return mRequestQueue;
     }
 }
