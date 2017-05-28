@@ -9,10 +9,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.kevoroid.andhackernews.AndHackerNewsApplication;
 import com.kevoroid.andhackernews.R;
 import com.kevoroid.andhackernews.adapters.StoryListAdapter;
 import com.kevoroid.andhackernews.adapters.VerticalSpaceItemDecoration;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by kevin on 5/27/17.
@@ -20,9 +31,15 @@ import com.kevoroid.andhackernews.adapters.VerticalSpaceItemDecoration;
 
 public class StoryListFragment extends BaseFragment {
 
+    public static final String HN_WEB_URL = "https://news.ycombinator.com";
+    public static final String HN_API_URL = "https://hacker-news.firebaseio.com/v0/";
+    public static final String HN_TOP_STORIES_URL = HN_API_URL + "topstories.json";
+    public static final String HN_ITEM_URL = HN_API_URL + "/item/";
+
     private StoryListAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mPullDownRefreshLayout;
+    JSONArray tempAllItemsJsonArray = new JSONArray();
 
     public static StoryListFragment newInstance() {
         Bundle args = new Bundle();
@@ -39,27 +56,126 @@ public class StoryListFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        getStories();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.story_list_fragment, container, false);
-        return v;
+        return inflater.inflate(R.layout.story_list_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mAdapter = new StoryListAdapter();
+        mAdapter = new StoryListAdapter(getActivity());
         mRecyclerView = (RecyclerView) view.findViewById(R.id.story_list_recyclerview);
         mPullDownRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.story_list_pull_down_refresh);
+        mPullDownRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimaryDark);
+        mPullDownRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                System.out.println("StoryListFragment.onRefresh >>>>>>>>>>>>>>>>");
+                mPullDownRefreshLayout.setRefreshing(false);
+            }
+        });
 
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setAdapter(mAdapter);
+        if (savedInstanceState == null) {
+            mPullDownRefreshLayout.setRefreshing(true);
+        }
+
+//        mRecyclerView.setHasFixedSize(true);
+//        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(getResources().getDimensionPixelSize(R.dimen.recycler_view_space)));
+        mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(getResources().getDimensionPixelSize(R.dimen.activity_margin)));
+    }
+
+    public void getStories() {
+        JsonArrayRequest request = new JsonArrayRequest(HN_TOP_STORIES_URL, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                System.out.println("jsonArray 222222222 = " + jsonArray);
+//                mAdapter.setAdapterData(jsonArray);
+//                mRecyclerView.setAdapter(mAdapter);
+//                mRecyclerView.setHasFixedSize(true);
+//                mPullDownRefreshLayout.setRefreshing(false);
+                getItems(jsonArray);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(getContext(), "OOPS! Houston, We have a problem!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        AndHackerNewsApplication.getRequestQueue().add(request);
+    }
+
+    public void getItems(final JSONArray jsonArray) {
+        System.out.println("StoryListFragment.getItems ==== " + jsonArray.length());
+//        for (int i = 0; i < jsonArray.length(); i++) {
+//        final ArrayList<String> arrayList = new ArrayList<>();
+        for (int i = 0; i < 50; i++) {
+            JsonObjectRequest jsonObjectRequest = null;
+            try {
+                System.out.println("StoryListFragment.getItems >>>>> " + HN_ITEM_URL + jsonArray.get(i) + ".json");
+                jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, HN_ITEM_URL + jsonArray.get(i) + ".json", null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            System.out.println("response 3333333 = " + response);
+
+                            JSONObject itemsObject = new JSONObject();
+                            itemsObject.put("title", response.get("title").toString());
+                            itemsObject.put("author", response.get("by").toString());
+                            itemsObject.put("score", response.get("score").toString());
+                            itemsObject.put("timestamp", response.get("time").toString());
+                            itemsObject.put("url", response.get("url").toString());
+
+                            tempAllItemsJsonArray.put(itemsObject);
+
+                            mAdapter.setAdapterData(tempAllItemsJsonArray);
+
+//                            arrayList.add(response.get("title").toString());
+
+//                            System.out.println("StoryListFragment.onResponse ++++++++++++++++++++ " + arrayList.size() + " --- " + arrayList.toString());
+
+//                            ObjectParser objectParser = new ObjectParser();
+//                            mAdapter.setAdapterData(jsonArray, objectParser.returnParsedData(response));
+//                            mAdapter.setAdapterData(arrayList);
+                            mRecyclerView.setAdapter(mAdapter);
+//                            mRecyclerView.setHasFixedSize(true);
+                            mPullDownRefreshLayout.setRefreshing(false);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            assert jsonObjectRequest != null;
+            AndHackerNewsApplication.getRequestQueue().add(jsonObjectRequest);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
     }
 
     @Override

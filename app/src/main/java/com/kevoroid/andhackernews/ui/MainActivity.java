@@ -6,10 +6,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.kevoroid.andhackernews.R;
+import com.kevoroid.andhackernews.adapters.StoryListAdapter;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements StoryListAdapter.StoryListAdapterInterface {
 
     private Fragment mStoryListFragment;
+    private Fragment mStoryDetailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,16 +21,23 @@ public class MainActivity extends BaseActivity {
 
         if (mStoryListFragment == null) {
             mStoryListFragment = StoryListFragment.newInstance();
-            setFragment(mStoryListFragment);
+            addFragment(mStoryListFragment);
         } else {
-            setFragment(mStoryListFragment);
+            addFragment(mStoryListFragment);
         }
     }
 
-    protected void setFragment(Fragment fragment) {
+    protected void addFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_activity_fragment_container, fragment);
+        fragmentTransaction.commit();
+    }
+
+    protected void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_activity_fragment_container, fragment).addToBackStack(fragment.getTag());
         fragmentTransaction.commit();
     }
 
@@ -37,6 +46,16 @@ public class MainActivity extends BaseActivity {
         super.onBackPressed();
         if (mStoryListFragment.isVisible()) {
             finish();
+        }
+    }
+
+    @Override
+    public void onItemClick() {
+        if (mStoryDetailFragment == null) {
+            mStoryDetailFragment = StoryDetailFragment.newInstance();
+            replaceFragment(mStoryDetailFragment);
+        } else {
+            replaceFragment(mStoryDetailFragment);
         }
     }
 }
