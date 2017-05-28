@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.squareup.leakcanary.LeakCanary;
 
 /**
  * Created by kevin on 5/28/17.
@@ -17,6 +18,7 @@ public class AndHackerNewsApplication extends Application {
     public void onCreate() {
         super.onCreate();
         initVolley();
+        LeakCanary.install(this);
     }
 
     private void initVolley() {
