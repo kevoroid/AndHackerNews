@@ -78,7 +78,9 @@ public class StoryListFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 System.out.println("StoryListFragment.onRefresh >>>>>>>>>>>>>>>>");
-                mPullDownRefreshLayout.setRefreshing(false);
+                mPullDownRefreshLayout.setRefreshing(true);
+                AndHackerNewsApplication.getRequestQueue().cancelAll(getActivity().getApplicationContext());
+                getStories();
             }
         });
 
@@ -110,14 +112,13 @@ public class StoryListFragment extends BaseFragment {
             }
         });
 
-        AndHackerNewsApplication.getRequestQueue().add(request);
+        AndHackerNewsApplication.addToRequestQueue(request);
     }
 
     public void getItems(final JSONArray jsonArray) {
         System.out.println("StoryListFragment.getItems ==== " + jsonArray.length());
-//        for (int i = 0; i < jsonArray.length(); i++) {
+        for (int i = 0; i < jsonArray.length(); i++) {
 //        final ArrayList<String> arrayList = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
             JsonObjectRequest jsonObjectRequest = null;
             try {
                 System.out.println("StoryListFragment.getItems >>>>> " + HN_ITEM_URL + jsonArray.get(i) + ".json");
@@ -129,26 +130,28 @@ public class StoryListFragment extends BaseFragment {
                             System.out.println("response 3333333 = " + response);
 
                             JSONObject itemsObject = new JSONObject();
-                            itemsObject.put("title", response.get("title").toString());
-                            itemsObject.put("author", response.get("by").toString());
-                            itemsObject.put("score", response.get("score").toString());
-                            itemsObject.put("timestamp", response.get("time").toString());
-                            itemsObject.put("url", response.get("url").toString());
+                            itemsObject.put("title", response.optString("title"));
+                            itemsObject.put("author", response.optString("by"));
+                            itemsObject.put("score", response.optString("score"));
+                            itemsObject.put("timestamp", response.optString("time"));
+                            itemsObject.put("url", response.optString("url"));
 
                             tempAllItemsJsonArray.put(itemsObject);
 
-                            mAdapter.setAdapterData(tempAllItemsJsonArray);
-
-//                            arrayList.add(response.get("title").toString());
+                            if (tempAllItemsJsonArray.length() == jsonArray.length()) {
+                                mAdapter.setAdapterData(tempAllItemsJsonArray);
+                                mRecyclerView.setAdapter(mAdapter);
+                                mPullDownRefreshLayout.setRefreshing(false);
+                            }
 
 //                            System.out.println("StoryListFragment.onResponse ++++++++++++++++++++ " + arrayList.size() + " --- " + arrayList.toString());
 
 //                            ObjectParser objectParser = new ObjectParser();
 //                            mAdapter.setAdapterData(jsonArray, objectParser.returnParsedData(response));
 //                            mAdapter.setAdapterData(arrayList);
-                            mRecyclerView.setAdapter(mAdapter);
+//                            mRecyclerView.setAdapter(mAdapter);
 //                            mRecyclerView.setHasFixedSize(true);
-                            mPullDownRefreshLayout.setRefreshing(false);
+//                            mPullDownRefreshLayout.setRefreshing(false);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -164,7 +167,7 @@ public class StoryListFragment extends BaseFragment {
             }
 
             assert jsonObjectRequest != null;
-            AndHackerNewsApplication.getRequestQueue().add(jsonObjectRequest);
+            AndHackerNewsApplication.addToRequestQueue(jsonObjectRequest);
         }
     }
 

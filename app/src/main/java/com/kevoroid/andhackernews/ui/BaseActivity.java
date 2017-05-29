@@ -46,7 +46,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        AndHackerNewsApplication.getRequestQueue().cancelAll(this.getClass());
+        AndHackerNewsApplication.getRequestQueue().cancelAll(getApplicationContext());
     }
 
     @Override
