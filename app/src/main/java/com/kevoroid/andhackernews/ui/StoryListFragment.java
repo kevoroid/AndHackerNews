@@ -80,7 +80,7 @@ public class StoryListFragment extends BaseFragment {
             public void onRefresh() {
                 System.out.println("StoryListFragment.onRefresh >>>>>>>>>>>>>>>>");
                 mPullDownRefreshLayout.setRefreshing(true);
-                AndHackerNewsController.getInstance(getContext()).getRequestQueue().cancelAll("GET");
+                AndHackerNewsController.getInstance(getContext()).getRequestQueue().cancelAll(BaseFragment.class);
                 getStories();
             }
         });
@@ -113,7 +113,7 @@ public class StoryListFragment extends BaseFragment {
             }
         });
 
-        request.setTag("GET");
+        request.setTag(BaseFragment.class);
         AndHackerNewsController.getInstance(getContext()).addToRequestQueue(request);
     }
 
@@ -169,7 +169,7 @@ public class StoryListFragment extends BaseFragment {
             }
 
             assert jsonObjectRequest != null;
-//            jsonObjectRequest.setTag("GET");
+            jsonObjectRequest.setTag(BaseFragment.class);
             AndHackerNewsController.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
         }
     }

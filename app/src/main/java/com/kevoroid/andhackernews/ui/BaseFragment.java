@@ -23,7 +23,7 @@ public class BaseFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        AndHackerNewsController.getInstance(getContext()).getRequestQueue().cancelAll("GET");
+        AndHackerNewsController.getInstance(getContext()).getRequestQueue().cancelAll(BaseFragment.class);
     }
 
     @Override
