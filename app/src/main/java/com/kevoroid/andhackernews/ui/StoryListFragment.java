@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.kevoroid.andhackernews.AndHackerNewsApplication;
 import com.kevoroid.andhackernews.AndHackerNewsController;
 import com.kevoroid.andhackernews.R;
 import com.kevoroid.andhackernews.adapters.StoryListAdapter;
@@ -31,6 +31,8 @@ import org.json.JSONObject;
  */
 
 public class StoryListFragment extends BaseFragment {
+
+    public static final String TAG = "Kev_DEBUG";
 
     public static final String HN_WEB_URL = "https://news.ycombinator.com";
     public static final String HN_API_URL = "https://hacker-news.firebaseio.com/v0/";
@@ -78,7 +80,6 @@ public class StoryListFragment extends BaseFragment {
         mPullDownRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                System.out.println("StoryListFragment.onRefresh >>>>>>>>>>>>>>>>");
                 mPullDownRefreshLayout.setRefreshing(true);
                 AndHackerNewsController.getInstance(getContext()).getRequestQueue().cancelAll(BaseFragment.class);
                 getStories();
@@ -89,8 +90,6 @@ public class StoryListFragment extends BaseFragment {
             mPullDownRefreshLayout.setRefreshing(true);
         }
 
-//        mRecyclerView.setHasFixedSize(true);
-//        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(getResources().getDimensionPixelSize(R.dimen.activity_margin)));
     }
@@ -99,11 +98,7 @@ public class StoryListFragment extends BaseFragment {
         JsonArrayRequest request = new JsonArrayRequest(HN_TOP_STORIES_URL, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
-                System.out.println("jsonArray 222222222 = " + jsonArray);
-//                mAdapter.setAdapterData(jsonArray);
-//                mRecyclerView.setAdapter(mAdapter);
-//                mRecyclerView.setHasFixedSize(true);
-//                mPullDownRefreshLayout.setRefreshing(false);
+                Log.d(TAG, "list fragment response: " + jsonArray);
                 getItems(jsonArray);
             }
         }, new Response.ErrorListener() {
@@ -118,18 +113,17 @@ public class StoryListFragment extends BaseFragment {
     }
 
     public void getItems(final JSONArray jsonArray) {
-        System.out.println("StoryListFragment.getItems ==== " + jsonArray.length());
+        Log.d(TAG, "list fragment items array count: " + jsonArray.length());
         for (int i = 0; i < jsonArray.length(); i++) {
-//        final ArrayList<String> arrayList = new ArrayList<>();
             JsonObjectRequest jsonObjectRequest = null;
             try {
-                System.out.println("StoryListFragment.getItems >>>>> " + HN_ITEM_URL + jsonArray.get(i) + ".json");
+                Log.d(TAG, "list fragment item: " + HN_ITEM_URL + jsonArray.get(i) + ".json");
                 jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, HN_ITEM_URL + jsonArray.get(i) + ".json", null, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            System.out.println("response 3333333 = " + response);
+                            Log.d(TAG, "list fragment item responce: " + response);
 
                             JSONObject itemsObject = new JSONObject();
                             itemsObject.put("title", response.optString("title"));
@@ -145,15 +139,6 @@ public class StoryListFragment extends BaseFragment {
                                 mRecyclerView.setAdapter(mAdapter);
                                 mPullDownRefreshLayout.setRefreshing(false);
                             }
-
-//                            System.out.println("StoryListFragment.onResponse ++++++++++++++++++++ " + arrayList.size() + " --- " + arrayList.toString());
-
-//                            ObjectParser objectParser = new ObjectParser();
-//                            mAdapter.setAdapterData(jsonArray, objectParser.returnParsedData(response));
-//                            mAdapter.setAdapterData(arrayList);
-//                            mRecyclerView.setAdapter(mAdapter);
-//                            mRecyclerView.setHasFixedSize(true);
-//                            mPullDownRefreshLayout.setRefreshing(false);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
