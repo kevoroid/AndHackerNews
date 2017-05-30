@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.kevoroid.andhackernews.R;
 
 /**
  * Created by kevin on 5/27/17.
@@ -13,9 +16,11 @@ import android.view.ViewGroup;
 
 public class StoryDetailFragment extends BaseFragment {
 
-    public static StoryDetailFragment newInstance() {
+    public static StoryDetailFragment newInstance(String title, int commentsCount) {
         Bundle args = new Bundle();
         StoryDetailFragment fragment = new StoryDetailFragment();
+        args.putString("storyTitle", title);
+        args.putInt("storyCommentsCount", commentsCount);
         fragment.setArguments(args);
         return fragment;
     }
@@ -33,7 +38,14 @@ public class StoryDetailFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View v = inflater.inflate(R.layout.story_detail_fragment, container, false);
+        TextView storyTitle = (TextView) v.findViewById(R.id.story_detail_title);
+        TextView storyCommentsCount = (TextView) v.findViewById(R.id.story_detail_comments);
+        if (getArguments() != null) {
+            storyTitle.setText(getArguments().getString("storyTitle"));
+            storyCommentsCount.setText(String.format("Number of comments: %s", String.valueOf(getArguments().getInt("storyCommentsCount"))));
+        }
+        return v;
     }
 
     @Override
