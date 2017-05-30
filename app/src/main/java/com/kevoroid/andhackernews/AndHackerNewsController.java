@@ -13,24 +13,22 @@ import com.android.volley.toolbox.Volley;
 public class AndHackerNewsController {
 
     private static AndHackerNewsController mInstance;
-    private static Context mContext;
     private RequestQueue mRequestQueue;
 
     private AndHackerNewsController(Context context) {
-        mContext = context;
-        initVolley();
+        initVolley(context);
     }
 
     public static synchronized AndHackerNewsController getInstance(Context context) {
         if (mInstance == null) {
-            mInstance = new AndHackerNewsController(context);
+            mInstance = new AndHackerNewsController(context.getApplicationContext());
         }
         return mInstance;
     }
 
-    private void initVolley() {
+    private void initVolley(Context context) {
         if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(mContext.getApplicationContext());
+            mRequestQueue = Volley.newRequestQueue(context.getApplicationContext());
         }
     }
 
