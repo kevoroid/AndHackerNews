@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.ViewHolder> {
 
 //    private AdapterView.OnItemClickListener mListener;
+
+    public static final String TAG = "Kev_DEBUG";
 
     private StoryListAdapterInterface mStoryListAdapterInterface;
     private Context mContext;
@@ -54,14 +57,14 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        System.out.println("StoryListAdapter.onCreateViewHolder");
+        Log.d(TAG, "story adapter onCreateViewHolder: ");
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_view, viewGroup, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        System.out.println("StoryListAdapter.onBindViewHolder");
+        Log.d(TAG, "story adapter onBindViewHolder: ");
         try {
 //            viewHolder.mPostTitle.setText(mStoryListArray.getString(position));
 //            viewHolder.mPostTitle.setText(mStoryItemModel.title);
@@ -88,45 +91,6 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
         return mStoryListArray.length();
 //        return arrayList.size();
     }
-
-//    public void getStories() {
-//        System.out.println("StoryListAdapter.getStories");
-////        Request request = new RequestMaker(Request.Method.GET, HN_TOP_STORIES_URL, new Response.Listener() {
-////            @Override
-////            public void onResponse(Object o) {
-////                System.out.println("StoryListAdapter.onResponse");
-////                System.out.println("StoryListAdapter.onResponse 2 " + o);
-////                String result = o.toString();
-////                System.out.println("result = " + result);
-////            }
-////        }, new Response.ErrorListener() {
-////            @Override
-////            public void onErrorResponse(VolleyError volleyError) {
-////                System.out.println("StoryListAdapter.onErrorResponse");
-////                // OOPS!
-////            }
-////        }) {
-////            @Override
-////            public int compareTo(@NonNull Object o) {
-////                return 0;
-////            }
-////        };
-//
-//        JsonArrayRequest request = new JsonArrayRequest(HN_TOP_STORIES_URL, new Response.Listener<JSONArray>() {
-//            @Override
-//            public void onResponse(JSONArray jsonArray) {
-//                System.out.println("jsonArray = " + jsonArray);
-//                mStoryListArray = jsonArray;
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError volleyError) {
-//
-//            }
-//        });
-//
-//        AndHackerNewsApplication.getRequestQueue().add(request);
-//    }
 
     //    public class ViewHolder extends RecyclerView.ViewHolder {
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
