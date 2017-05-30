@@ -2,9 +2,6 @@ package com.kevoroid.andhackernews;
 
 import android.app.Application;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -13,27 +10,9 @@ import com.squareup.leakcanary.LeakCanary;
 
 public class AndHackerNewsApplication extends Application {
 
-    private static RequestQueue mRequestQueue;
-
     @Override
     public void onCreate() {
         super.onCreate();
-        initVolley();
         LeakCanary.install(this);
     }
-
-    private void initVolley() {
-        if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(this);
-        }
-    }
-
-    public static synchronized RequestQueue getRequestQueue() {
-        return mRequestQueue;
-    }
-
-    public static <T> void addToRequestQueue(Request<T> req) {
-        getRequestQueue().add(req);
-    }
-
 }

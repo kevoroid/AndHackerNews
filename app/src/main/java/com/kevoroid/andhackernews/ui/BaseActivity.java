@@ -5,7 +5,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.kevoroid.andhackernews.AndHackerNewsApplication;
+import com.kevoroid.andhackernews.AndHackerNewsController;
 import com.kevoroid.andhackernews.R;
 
 /**
@@ -46,7 +46,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        AndHackerNewsApplication.getRequestQueue().cancelAll(getApplicationContext());
+        AndHackerNewsController.getInstance(this).getRequestQueue().cancelAll("GET");
     }
 
     @Override

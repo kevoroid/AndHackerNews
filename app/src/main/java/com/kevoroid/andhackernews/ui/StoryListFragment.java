@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.kevoroid.andhackernews.AndHackerNewsApplication;
+import com.kevoroid.andhackernews.AndHackerNewsController;
 import com.kevoroid.andhackernews.R;
 import com.kevoroid.andhackernews.adapters.StoryListAdapter;
 import com.kevoroid.andhackernews.adapters.VerticalSpaceItemDecoration;
@@ -79,7 +80,7 @@ public class StoryListFragment extends BaseFragment {
             public void onRefresh() {
                 System.out.println("StoryListFragment.onRefresh >>>>>>>>>>>>>>>>");
                 mPullDownRefreshLayout.setRefreshing(true);
-                AndHackerNewsApplication.getRequestQueue().cancelAll(getActivity().getApplicationContext());
+                AndHackerNewsController.getInstance(getContext()).getRequestQueue().cancelAll("GET");
                 getStories();
             }
         });
@@ -112,7 +113,8 @@ public class StoryListFragment extends BaseFragment {
             }
         });
 
-        AndHackerNewsApplication.addToRequestQueue(request);
+        request.setTag("GET");
+        AndHackerNewsController.getInstance(getContext()).addToRequestQueue(request);
     }
 
     public void getItems(final JSONArray jsonArray) {
@@ -167,7 +169,8 @@ public class StoryListFragment extends BaseFragment {
             }
 
             assert jsonObjectRequest != null;
-            AndHackerNewsApplication.addToRequestQueue(jsonObjectRequest);
+//            jsonObjectRequest.setTag("GET");
+            AndHackerNewsController.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
         }
     }
 

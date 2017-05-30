@@ -2,7 +2,7 @@ package com.kevoroid.andhackernews.ui;
 
 import android.support.v4.app.Fragment;
 
-import com.kevoroid.andhackernews.AndHackerNewsApplication;
+import com.kevoroid.andhackernews.AndHackerNewsController;
 
 /**
  * Created by kevin on 5/27/17.
@@ -23,7 +23,7 @@ public class BaseFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        AndHackerNewsApplication.getRequestQueue().cancelAll(getActivity().getApplicationContext());
+        AndHackerNewsController.getInstance(getContext()).getRequestQueue().cancelAll("GET");
     }
 
     @Override
