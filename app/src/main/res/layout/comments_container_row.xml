@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/recycler_view_space"
+    android:layout_marginEnd="@dimen/activity_margin"
+    android:layout_marginStart="@dimen/activity_margin"
+    android:layout_marginTop="@dimen/recycler_view_space"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/comments_row_by"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_normal"
+        android:textIsSelectable="true"
+        tools:text="Kevin" />
+
+    <TextView
+        android:id="@+id/comments_row_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_secondary"
+        android:textIsSelectable="true"
+        tools:text="this is my sample comment yo!" />
+
+</LinearLayout>

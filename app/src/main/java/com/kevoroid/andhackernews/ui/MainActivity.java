@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentTransaction;
 import com.kevoroid.andhackernews.R;
 import com.kevoroid.andhackernews.adapters.StoryListAdapter;
 
+import org.json.JSONArray;
+
 public class MainActivity extends BaseActivity implements StoryListAdapter.StoryListAdapterInterface {
 
     private Fragment mStoryListFragment;
@@ -47,8 +49,8 @@ public class MainActivity extends BaseActivity implements StoryListAdapter.Story
     }
 
     @Override
-    public void onItemClick(String title, int commentsCount) {
-        mStoryDetailFragment = StoryDetailFragment.newInstance(title, commentsCount);
+    public void onItemClick(String title, int commentsCount, JSONArray commentsList) {
+        mStoryDetailFragment = StoryDetailFragment.newInstance(title, commentsCount, commentsList);
         replaceFragment(mStoryDetailFragment);
     }
 }

@@ -16,7 +16,9 @@ import com.kevoroid.andhackernews.helpers.TimeHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -29,30 +31,32 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
 
     public static final String TAG = "Kev_DEBUG";
 
+    private JSONArray tempAllItemsJsonArray = new JSONArray();
+
     private StoryListAdapterInterface mStoryListAdapterInterface;
     private Context mContext;
-    private JSONArray mStoryListArray;
-    public StoryItemModel mStoryItemModel;
-    public ArrayList arrayList;
 
     public StoryListAdapter(Context context) {
         mContext = context;
         if (context instanceof StoryListAdapterInterface) {
             mStoryListAdapterInterface = (StoryListAdapterInterface) context;
         }
-//        getStories();
     }
 
 //    public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
 //        mListener = listener;
 //    }
 
-    //    public void setAdapterData(JSONArray adapterData, StoryItemModel storyItemModel) {
-//    public void setAdapterData(ArrayList m) {
-    public void setAdapterData(JSONArray adapterData) {
-        mStoryListArray = adapterData;
-//        mStoryItemModel = storyItemModel;
-//        arrayList = m;
+    public void addAdapterData(JSONObject fetchedData) {
+        Log.d(TAG, "addAdapterData length of tempAllItemsJsonArray: " + tempAllItemsJsonArray.length());
+        tempAllItemsJsonArray.put(fetchedData);
+    }
+
+    public void clearDataSet() {
+        if (tempAllItemsJsonArray.length() > 0) {
+            tempAllItemsJsonArray = new JSONArray();
+            notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -66,16 +70,11 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Log.d(TAG, "story adapter onBindViewHolder: ");
         try {
-//            viewHolder.mPostTitle.setText(mStoryListArray.getString(position));
-//            viewHolder.mPostTitle.setText(mStoryItemModel.title);
-//            viewHolder.mPostInfo.setText(String.format("Post by: %s at %s", mStoryItemModel.author, TimeHelper.returnActualDate(mStoryItemModel.timestamp)));
-
-//            viewHolder.mPostTitle.setText(arrayList.get(position).toString());
-
-            viewHolder.mPostTitle.setText(mStoryListArray.getJSONObject(position).getString("title"));
-            viewHolder.mPostInfo.setText(String.format("Posted by: %s at %s",
-                    mStoryListArray.getJSONObject(position).getString("author"), TimeHelper.returnActualDate(mStoryListArray.getJSONObject(position).getString("timestamp"))));
-            viewHolder.mPostScore.setText(mStoryListArray.getJSONObject(position).getString("score"));
+            viewHolder.mPostTitle.setText(tempAllItemsJsonArray.getJSONObject(position).optString("title", "No TITLE provided"));
+            viewHolder.mPostInfo.setText(String.format("Posted by: %s at %s", tempAllItemsJsonArray.getJSONObject(position).optString("by", "unknown"),
+                    TimeHelper.returnActualDate(tempAllItemsJsonArray.getJSONObject(position).optString("time")))
+            );
+            viewHolder.mPostScore.setText(tempAllItemsJsonArray.getJSONObject(position).optString("score", "-0-"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,18 +87,18 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
 
     @Override
     public int getItemCount() {
-        return mStoryListArray.length();
-//        return arrayList.size();
+        Log.d(TAG, "story adapter getItemCount: " + tempAllItemsJsonArray.length());
+        return tempAllItemsJsonArray.length();
     }
 
     //    public class ViewHolder extends RecyclerView.ViewHolder {
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        public TextView mPostTitle;
-        public TextView mPostInfo;
-        public TextView mPostScore;
+        private TextView mPostTitle;
+        private TextView mPostInfo;
+        private TextView mPostScore;
 
-        public ViewHolder(View viewItem) {
+        private ViewHolder(View viewItem) {
             super(viewItem);
             mPostTitle = (TextView) viewItem.findViewById(R.id.story_item_title);
             mPostInfo = (TextView) viewItem.findViewById(R.id.story_item_info);
@@ -126,7 +125,7 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
             int position = getAdapterPosition();
             try {
                 Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(mStoryListArray.getJSONObject(position).getString("url")));
+                i.setData(Uri.parse(tempAllItemsJsonArray.getJSONObject(position).optString("url")));
                 mContext.startActivity(i);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -135,12 +134,19 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
 
         @Override
         public boolean onLongClick(View v) {
-            mStoryListAdapterInterface.onItemClick();
+            int position = getAdapterPosition();
+            try {
+                mStoryListAdapterInterface.onItemClick(tempAllItemsJsonArray.getJSONObject(position).optString("title"),
+                        tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") != null ? tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids").length() : 0,
+                        tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") != null ? tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") : new JSONArray());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return true;
         }
     }
 
     public interface StoryListAdapterInterface {
-        void onItemClick();
+        void onItemClick(String title, int commentsCount, JSONArray commentsList);
     }
 }

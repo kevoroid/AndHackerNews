@@ -1,29 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/activity_margin">
+    android:paddingTop="@dimen/activity_margin">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/story_detail_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="@dimen/activity_margin"
+        android:paddingStart="@dimen/activity_margin"
+        android:textColor="@color/text_normal"
+        android:textSize="24sp"
+        tools:text="This is just the title of the story which can be very long!" />
+
+    <TextView
+        android:id="@+id/story_detail_comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/recycler_view_space"
+        android:paddingEnd="@dimen/activity_margin"
+        android:paddingStart="@dimen/activity_margin"
+        android:textColor="@color/text_secondary"
+        tools:text="Number of comments: 18" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginEnd="@dimen/activity_margin"
+        android:layout_marginStart="@dimen/activity_margin"
+        android:background="@color/text_secondary" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:fillViewport="true"
+        android:scrollbarStyle="insideOverlay">
 
-        <TextView
-            android:id="@+id/story_detail_title"
+        <LinearLayout
+            android:id="@+id/story_detail_comments_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_normal"
-            android:textSize="24sp" />
+            android:orientation="vertical" />
 
-        <TextView
-            android:id="@+id/story_detail_comments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_secondary" />
-
-    </LinearLayout>
-
+    </ScrollView>
 
 </LinearLayout>
