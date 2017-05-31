@@ -102,7 +102,10 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
         public void onClick(View view) {
             int position = getAdapterPosition();
             try {
-                mStoryListAdapterInterface.onItemClick(MainActivity.TYPE_CONSTANT_STORY, tempAllItemsJsonArray.getJSONObject(position).optString("url"), 0, null);
+                mStoryListAdapterInterface.onItemClick(MainActivity.TYPE_CONSTANT_STORY, tempAllItemsJsonArray.getJSONObject(position).optString("title"),
+                        tempAllItemsJsonArray.getJSONObject(position).optString("url"),
+                        tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") != null ? tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids").length() : 0,
+                        tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") != null ? tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids").toString() : "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -112,9 +115,9 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
         public boolean onLongClick(View v) {
             int position = getAdapterPosition();
             try {
-                mStoryListAdapterInterface.onItemClick(MainActivity.TYPE_CONSTANT_COMMENT, tempAllItemsJsonArray.getJSONObject(position).optString("title"),
+                mStoryListAdapterInterface.onItemClick(MainActivity.TYPE_CONSTANT_COMMENT, tempAllItemsJsonArray.getJSONObject(position).optString("title"), null,
                         tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") != null ? tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids").length() : 0,
-                        tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") != null ? tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") : new JSONArray());
+                        tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") != null ? tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids").toString() : "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -123,6 +126,6 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
     }
 
     public interface StoryListAdapterInterface {
-        void onItemClick(String type, String title_url, int commentsCount, JSONArray commentsList);
+        void onItemClick(String type, String title, String url, int commentsCount, String commentsList);
     }
 }

@@ -16,7 +16,7 @@ public class MainActivity extends BaseActivity implements StoryListAdapter.Story
 
     private Fragment mStoryListFragment;
     private Fragment mStoryDetailFragment;
-    private StoryWebViewFragment mStoryWebViewFragment;
+    private Fragment mStoryWebViewFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +53,14 @@ public class MainActivity extends BaseActivity implements StoryListAdapter.Story
     }
 
     @Override
-    public void onItemClick(String type, String title_url, int commentsCount, JSONArray commentsList) {
+    public void onItemClick(String type, String title, String url, int commentsCount, String commentsList) {
         switch (type) {
             case TYPE_CONSTANT_STORY:
-                mStoryWebViewFragment = StoryWebViewFragment.newInstance(title_url);
+                mStoryWebViewFragment = StoryWebViewFragment.newInstance(title, url, commentsCount, commentsList);
                 replaceFragment(mStoryWebViewFragment);
                 break;
             case TYPE_CONSTANT_COMMENT:
-                mStoryDetailFragment = StoryDetailFragment.newInstance(title_url, commentsCount, commentsList);
+                mStoryDetailFragment = StoryDetailFragment.newInstance(title, commentsCount, commentsList);
                 replaceFragment(mStoryDetailFragment);
                 break;
         }

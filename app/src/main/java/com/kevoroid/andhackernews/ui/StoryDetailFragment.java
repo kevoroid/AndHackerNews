@@ -34,12 +34,12 @@ public class StoryDetailFragment extends BaseFragment {
 
     private ViewGroup commentViewGroup;
 
-    public static StoryDetailFragment newInstance(String title, int commentsCount, JSONArray commentList) {
+    public static StoryDetailFragment newInstance(String title, int commentsCount, String commentList) {
         Bundle args = new Bundle();
         StoryDetailFragment fragment = new StoryDetailFragment();
         args.putString("storyTitle", title);
         args.putInt("storyCommentsCount", commentsCount);
-        args.putString("storyCommentsList", commentList.toString());
+        args.putString("storyCommentsList", commentList);
         fragment.setArguments(args);
         return fragment;
     }
