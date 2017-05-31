@@ -11,8 +11,12 @@ import org.json.JSONArray;
 
 public class MainActivity extends BaseActivity implements StoryListAdapter.StoryListAdapterInterface {
 
+    public static final String TYPE_CONSTANT_STORY = "story";
+    public static final String TYPE_CONSTANT_COMMENT = "comment";
+
     private Fragment mStoryListFragment;
     private Fragment mStoryDetailFragment;
+    private StoryWebViewFragment mStoryWebViewFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +53,16 @@ public class MainActivity extends BaseActivity implements StoryListAdapter.Story
     }
 
     @Override
-    public void onItemClick(String title, int commentsCount, JSONArray commentsList) {
-        mStoryDetailFragment = StoryDetailFragment.newInstance(title, commentsCount, commentsList);
-        replaceFragment(mStoryDetailFragment);
+    public void onItemClick(String type, String title_url, int commentsCount, JSONArray commentsList) {
+        switch (type) {
+            case TYPE_CONSTANT_STORY:
+                mStoryWebViewFragment = StoryWebViewFragment.newInstance(title_url);
+                replaceFragment(mStoryWebViewFragment);
+                break;
+            case TYPE_CONSTANT_COMMENT:
+                mStoryDetailFragment = StoryDetailFragment.newInstance(title_url, commentsCount, commentsList);
+                replaceFragment(mStoryDetailFragment);
+                break;
+        }
     }
 }
