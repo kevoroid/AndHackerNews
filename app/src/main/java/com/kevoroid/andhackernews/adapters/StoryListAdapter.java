@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.kevoroid.andhackernews.R;
 import com.kevoroid.andhackernews.helpers.TimeHelper;
+import com.kevoroid.andhackernews.ui.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -101,10 +102,8 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
         public void onClick(View view) {
             int position = getAdapterPosition();
             try {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(tempAllItemsJsonArray.getJSONObject(position).optString("url")));
-                mContext.startActivity(i);
-            } catch (JSONException e) {
+                mStoryListAdapterInterface.onItemClick(MainActivity.TYPE_CONSTANT_STORY, tempAllItemsJsonArray.getJSONObject(position).optString("url"), 0, null);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -113,7 +112,7 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
         public boolean onLongClick(View v) {
             int position = getAdapterPosition();
             try {
-                mStoryListAdapterInterface.onItemClick(tempAllItemsJsonArray.getJSONObject(position).optString("title"),
+                mStoryListAdapterInterface.onItemClick(MainActivity.TYPE_CONSTANT_COMMENT, tempAllItemsJsonArray.getJSONObject(position).optString("title"),
                         tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") != null ? tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids").length() : 0,
                         tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") != null ? tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") : new JSONArray());
             } catch (Exception e) {
@@ -124,6 +123,6 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
     }
 
     public interface StoryListAdapterInterface {
-        void onItemClick(String title, int commentsCount, JSONArray commentsList);
+        void onItemClick(String type, String title_url, int commentsCount, JSONArray commentsList);
     }
 }
