@@ -3,7 +3,11 @@ package com.kevoroid.andhackernews.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
@@ -12,16 +16,21 @@ import android.widget.ProgressBar;
 
 import com.kevoroid.andhackernews.R;
 
+import org.json.JSONArray;
+
 /**
  * Created by kevin on 5/31/17.
  */
 
 public class StoryWebViewFragment extends BaseFragment {
 
-    public static StoryWebViewFragment newInstance(String url) {
+    public static StoryWebViewFragment newInstance(String title, String url, int commentsCount, String commentList) {
         Bundle args = new Bundle();
         StoryWebViewFragment fragment = new StoryWebViewFragment();
+        args.putString("storyTitle", title);
         args.putString("storyUrl", url);
+        args.putInt("storyCommentsCount", commentsCount);
+        args.putString("storyCommentsList", commentList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -34,6 +43,7 @@ public class StoryWebViewFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -65,5 +75,22 @@ public class StoryWebViewFragment extends BaseFragment {
             }
         });
         webView.loadUrl(getArguments().getString("storyUrl"));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.comments, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        StoryDetailFragment storyDetailFragment = StoryDetailFragment.newInstance(
+                getArguments().getString("storyTitle"),
+                getArguments().getInt("storyCommentsCount"),
+                getArguments().getString("storyCommentsList"));
+        getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.main_activity_fragment_container, storyDetailFragment).addToBackStack(storyDetailFragment.getTag()).commit();
+        return super.onOptionsItemSelected(item);
     }
 }
