@@ -11,23 +11,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kevoroid.andhackernews.R;
-import com.kevoroid.andhackernews.api.StoryItemModel;
 import com.kevoroid.andhackernews.helpers.TimeHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 /**
  * Created by kevin on 5/27/17.
  */
 
 public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.ViewHolder> {
-
-//    private AdapterView.OnItemClickListener mListener;
 
     public static final String TAG = "Kev_DEBUG";
 
@@ -42,10 +36,6 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
             mStoryListAdapterInterface = (StoryListAdapterInterface) context;
         }
     }
-
-//    public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
-//        mListener = listener;
-//    }
 
     public void addAdapterData(JSONObject fetchedData) {
         Log.d(TAG, "addAdapterData length of tempAllItemsJsonArray: " + tempAllItemsJsonArray.length());
@@ -91,7 +81,6 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
         return tempAllItemsJsonArray.length();
     }
 
-    //    public class ViewHolder extends RecyclerView.ViewHolder {
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private TextView mPostTitle;
@@ -103,18 +92,6 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
             mPostTitle = (TextView) viewItem.findViewById(R.id.story_item_title);
             mPostInfo = (TextView) viewItem.findViewById(R.id.story_item_info);
             mPostScore = (TextView) viewItem.findViewById(R.id.story_item_score);
-
-//            viewItem.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (mListener != null) {
-//                        int position = getAdapterPosition();
-//                        if (position != RecyclerView.NO_POSITION) {
-//                            mListener.onItemClick(itemView, position);
-//                        }
-//                    }
-//                }
-//            });
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
