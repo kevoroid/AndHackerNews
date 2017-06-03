@@ -27,4 +27,9 @@ public class TimeHelper {
         long actualDate = Long.parseLong(epoch) * 1000L;
         return sdf.format(new Date(actualDate));
     }
+
+    // used for UnitTest
+    public String returnActualDateNonStatic(String epoch) {
+        return returnActualDate(epoch);
+    }
 }
