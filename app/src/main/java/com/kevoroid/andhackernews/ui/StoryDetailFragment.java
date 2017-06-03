@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.kevoroid.andhackernews.AndHackerNewsController;
 import com.kevoroid.andhackernews.R;
+import com.kevoroid.andhackernews.api.RequestMaker;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,9 +29,6 @@ import java.util.Arrays;
  */
 
 public class StoryDetailFragment extends BaseFragment {
-
-    public static final String HN_API_URL = "https://hacker-news.firebaseio.com/v0/";
-    public static final String HN_ITEM_URL = HN_API_URL + "/item/";
 
     private ViewGroup commentViewGroup;
 
@@ -76,7 +74,7 @@ public class StoryDetailFragment extends BaseFragment {
         for (int i = 0; i < b; i++) {
             JsonObjectRequest jsonObjectRequest = null;
             try {
-                jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, HN_ITEM_URL + commentsIds.get(i) + ".json", null, new Response.Listener<JSONObject>() {
+                jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, RequestMaker.HN_ITEM_URL + commentsIds.get(i) + ".json", null, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {

@@ -37,11 +37,6 @@ public class StoryListFragment extends BaseFragment {
 
     public static final String TAG = "Kev_DEBUG";
 
-    public static final String HN_WEB_URL = "https://news.ycombinator.com";
-    public static final String HN_API_URL = "https://hacker-news.firebaseio.com/v0/";
-    public static final String HN_TOP_STORIES_URL = HN_API_URL + "topstories.json";
-    public static final String HN_ITEM_URL = HN_API_URL + "/item/";
-
     private StoryListAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mPullDownRefreshLayout;
@@ -131,7 +126,7 @@ public class StoryListFragment extends BaseFragment {
     }
 
     public void getStories() {
-        RequestMaker requestMaker = new RequestMaker(Request.Method.GET, HN_TOP_STORIES_URL, new Response.Listener() {
+        RequestMaker requestMaker = new RequestMaker(Request.Method.GET, RequestMaker.HN_TOP_STORIES_URL, new Response.Listener() {
             @Override
             public void onResponse(Object o) {
                 cachedIdsJSONArray = o;
@@ -156,7 +151,7 @@ public class StoryListFragment extends BaseFragment {
         Log.d(TAG, "list fragment items array count: " + stringArrayList.size());
         // using this for all stories will take time to load all since its a huge array of ids, should be done with pagination via either RxJava or sharding the data
         for (int i = 0; i < stringArrayList.size(); i++) {
-            RequestMaker requestMaker = new RequestMaker(Request.Method.GET, HN_ITEM_URL + stringArrayList.get(i) + ".json", new Response.Listener() {
+            RequestMaker requestMaker = new RequestMaker(Request.Method.GET, RequestMaker.HN_ITEM_URL + stringArrayList.get(i) + ".json", new Response.Listener() {
                 @Override
                 public void onResponse(Object o) {
                     JSONObject jsonObject = null;
