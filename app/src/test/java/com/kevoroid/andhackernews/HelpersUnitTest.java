@@ -9,7 +9,7 @@ import org.junit.Test;
  * Created by kevin on 6/3/17.
  */
 
-public class HelpersUnitText {
+public class HelpersUnitTest {
 
     @Test
     public void returnActualDateTester() {
