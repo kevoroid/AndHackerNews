@@ -146,8 +146,7 @@ public class StoryListFragment extends BaseFragment {
     }
 
     public void getItems(final Object jsonArray) {
-        ArrayList<String> stringArrayList = new ArrayList<>();
-        stringArrayList.addAll(Arrays.asList(jsonArray.toString().replace("[[", "").replace("]]", "").split(",")));
+        ArrayList<String> stringArrayList = formatJsonObject(jsonArray);
         Log.d(TAG, "list fragment items array count: " + stringArrayList.size());
         // using this for all stories will take time to load all since its a huge array of ids, should be done with pagination via either RxJava or sharding the data
         for (int i = 0; i < stringArrayList.size(); i++) {
@@ -177,6 +176,12 @@ public class StoryListFragment extends BaseFragment {
         }
         mRecyclerView.setAdapter(mAdapter);
         mPullDownRefreshLayout.setRefreshing(false);
+    }
+
+    public ArrayList<String> formatJsonObject(Object input) {
+        ArrayList<String> dd = new ArrayList<>();
+        dd.addAll(Arrays.asList(input.toString().replace("[[", "").replace("]]", "").split(",")));
+        return dd;
     }
 
 
