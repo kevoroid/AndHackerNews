@@ -1,8 +1,6 @@
 package com.kevoroid.andhackernews.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,14 +23,25 @@ import org.json.JSONObject;
 public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.ViewHolder> {
 
     public static final String TAG = "Kev_DEBUG";
+    public static final String VALUE_TYPE_STRING = "string";
+    public static final String VALUE_TYPE_ARRAY = "array";
 
-    private JSONArray tempAllItemsJsonArray = new JSONArray();
+    public static final String RESULT_FIELD_TITLE = "title";
+    public static final String RESULT_FIELD_BY = "by";
+    public static final String RESULT_FIELD_TIME = "time";
+    public static final String RESULT_FIELD_SCORE = "score";
+    public static final String RESULT_FIELD_URL = "url";
+    public static final String RESULT_FIELD_KIDS = "kids";
+
+    private JSONArray tempAllItemsJsonArray;
 
     private StoryListAdapterInterface mStoryListAdapterInterface;
-    private Context mContext;
+
+    public StoryListAdapter() {
+    }
 
     public StoryListAdapter(Context context) {
-        mContext = context;
+        tempAllItemsJsonArray = new JSONArray();
         if (context instanceof StoryListAdapterInterface) {
             mStoryListAdapterInterface = (StoryListAdapterInterface) context;
         }
@@ -61,11 +70,10 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Log.d(TAG, "story adapter onBindViewHolder: ");
         try {
-            viewHolder.mPostTitle.setText(tempAllItemsJsonArray.getJSONObject(position).optString("title", "No TITLE provided"));
-            viewHolder.mPostInfo.setText(String.format("Posted by: %s at %s", tempAllItemsJsonArray.getJSONObject(position).optString("by", "unknown"),
-                    TimeHelper.returnActualDate(tempAllItemsJsonArray.getJSONObject(position).optString("time")))
-            );
-            viewHolder.mPostScore.setText(tempAllItemsJsonArray.getJSONObject(position).optString("score", "-0-"));
+            viewHolder.mPostTitle.setText(returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_STRING, RESULT_FIELD_TITLE, position));
+            viewHolder.mPostInfo.setText(String.format("Posted by: %s at %s", returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_STRING, RESULT_FIELD_BY, position),
+                    TimeHelper.returnActualDate(returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_STRING, RESULT_FIELD_TIME, position))));
+            viewHolder.mPostScore.setText(returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_STRING, RESULT_FIELD_SCORE, position));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -102,10 +110,13 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
         public void onClick(View view) {
             int position = getAdapterPosition();
             try {
-                mStoryListAdapterInterface.onItemClick(MainActivity.TYPE_CONSTANT_STORY, tempAllItemsJsonArray.getJSONObject(position).optString("title"),
-                        tempAllItemsJsonArray.getJSONObject(position).optString("url"),
-                        tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") != null ? tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids").length() : 0,
-                        tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") != null ? tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids").toString() : "");
+                mStoryListAdapterInterface.onItemClick(MainActivity.TYPE_CONSTANT_STORY,
+                        returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_STRING, RESULT_FIELD_TITLE, position),
+                        returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_STRING, RESULT_FIELD_URL, position),
+                        returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position) != null ?
+                                returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position).length() : 0,
+                        returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position) != null ?
+                                returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position) : "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -115,13 +126,38 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
         public boolean onLongClick(View v) {
             int position = getAdapterPosition();
             try {
-                mStoryListAdapterInterface.onItemClick(MainActivity.TYPE_CONSTANT_COMMENT, tempAllItemsJsonArray.getJSONObject(position).optString("title"), null,
-                        tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") != null ? tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids").length() : 0,
-                        tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids") != null ? tempAllItemsJsonArray.getJSONObject(position).optJSONArray("kids").toString() : "");
+                mStoryListAdapterInterface.onItemClick(MainActivity.TYPE_CONSTANT_COMMENT,
+                        returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_STRING, RESULT_FIELD_TITLE, position), null,
+                        returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position) != null ?
+                                returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position).length() : 0,
+                        returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position) != null ?
+                                returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position) : "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
             return true;
+        }
+    }
+
+    public String returnObjectValueNamed(JSONArray array, String type, String valueName, int position) {
+        try {
+            switch (type) {
+                case VALUE_TYPE_STRING:
+                    return array.getJSONObject(position).optString(valueName, "N/A");
+                case VALUE_TYPE_ARRAY:
+                    return array.getJSONObject(position).optJSONArray(valueName).toString();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public JSONArray returnDefaultArrayObject() {
+        if (tempAllItemsJsonArray != null) {
+            return tempAllItemsJsonArray;
+        } else {
+            return new JSONArray();
         }
     }
 
