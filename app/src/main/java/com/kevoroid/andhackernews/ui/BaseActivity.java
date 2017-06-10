@@ -34,7 +34,7 @@ public class BaseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.main_menu_about:
-                Toast.makeText(this, "Hey this is sample HackerNew app for PropertyGuru!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Hey this is just a simple HackerNew app developed by me; Kevoroid@gmail.com!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_menu_settings:
                 Toast.makeText(this, "Bingo! you reached Settings, leave a message after the BEEP!", Toast.LENGTH_SHORT).show();
