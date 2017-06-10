@@ -113,10 +113,10 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
                 mStoryListAdapterInterface.onItemClick(MainActivity.TYPE_CONSTANT_STORY,
                         returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_STRING, RESULT_FIELD_TITLE, position),
                         returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_STRING, RESULT_FIELD_URL, position),
-                        returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position) != null ?
-                                returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position).length() : 0,
-                        returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position) != null ?
-                                returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position) : "");
+                        returnObjectValueNamed(returnDefaultArrayObject(), RESULT_FIELD_KIDS, position) != null ?
+                                returnObjectValueNamed(returnDefaultArrayObject(), RESULT_FIELD_KIDS, position).length() : 0,
+                        returnObjectValueNamed(returnDefaultArrayObject(), RESULT_FIELD_KIDS, position) != null ?
+                                returnObjectValueNamed(returnDefaultArrayObject(), RESULT_FIELD_KIDS, position).toString() : "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -128,10 +128,10 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
             try {
                 mStoryListAdapterInterface.onItemClick(MainActivity.TYPE_CONSTANT_COMMENT,
                         returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_STRING, RESULT_FIELD_TITLE, position), null,
-                        returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position) != null ?
-                                returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position).length() : 0,
-                        returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position) != null ?
-                                returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_ARRAY, RESULT_FIELD_KIDS, position) : "");
+                        returnObjectValueNamed(returnDefaultArrayObject(), RESULT_FIELD_KIDS, position) != null ?
+                                returnObjectValueNamed(returnDefaultArrayObject(), RESULT_FIELD_KIDS, position).length() : 0,
+                        returnObjectValueNamed(returnDefaultArrayObject(), RESULT_FIELD_KIDS, position) != null ?
+                                returnObjectValueNamed(returnDefaultArrayObject(), RESULT_FIELD_KIDS, position).toString() : "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -147,6 +147,15 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
                 case VALUE_TYPE_ARRAY:
                     return array.getJSONObject(position).optJSONArray(valueName).toString();
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public JSONArray returnObjectValueNamed(JSONArray array, String valueName, int position) {
+        try {
+            return array.getJSONObject(position).optJSONArray(valueName);
         } catch (JSONException e) {
             e.printStackTrace();
         }
