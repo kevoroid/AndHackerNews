@@ -85,12 +85,15 @@ public class StoryWebViewFragment extends BaseFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        StoryDetailFragment storyDetailFragment = StoryDetailFragment.newInstance(
-                getArguments().getString("storyTitle"),
-                getArguments().getInt("storyCommentsCount"),
-                getArguments().getString("storyCommentsList"));
-        getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.main_activity_fragment_container, storyDetailFragment).addToBackStack(storyDetailFragment.getTag()).commit();
+        switch (item.getItemId()) {
+            case R.id.comments_menu:
+                StoryDetailFragment storyDetailFragment = StoryDetailFragment.newInstance(
+                        getArguments().getString("storyTitle"),
+                        getArguments().getInt("storyCommentsCount"),
+                        getArguments().getString("storyCommentsList"));
+                getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.main_activity_fragment_container, storyDetailFragment).addToBackStack(storyDetailFragment.getTag()).commit();
+        }
         return super.onOptionsItemSelected(item);
     }
 }
