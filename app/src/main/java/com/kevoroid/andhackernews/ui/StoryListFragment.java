@@ -2,6 +2,7 @@ package com.kevoroid.andhackernews.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,6 +62,8 @@ public class StoryListFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
+        mAdapter = new StoryListAdapter(getActivity());
     }
 
     @Nullable
@@ -70,10 +73,9 @@ public class StoryListFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mAdapter = new StoryListAdapter(getActivity());
         mRecyclerView = (RecyclerView) view.findViewById(R.id.story_list_recyclerview);
         mPullDownRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.story_list_pull_down_refresh);
         mPullDownRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimaryDark);
@@ -83,12 +85,12 @@ public class StoryListFragment extends BaseFragment {
                 refreshItems();
             }
         });
-        mPullDownRefreshLayout.setRefreshing(true);
 
         // this causes last 2 cards to stick together. will debug later
         //mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(getResources().getDimensionPixelSize(R.dimen.activity_margin)));
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
         /*
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -113,7 +115,8 @@ public class StoryListFragment extends BaseFragment {
         if (cachedIdsJSONArray == null) {
             getStories();
         } else {
-            getItems(cachedIdsJSONArray);
+            // Is this necessary? (it refreshes the content everytime!)
+            //getItems(cachedIdsJSONArray);
         }
     }
 
@@ -125,7 +128,8 @@ public class StoryListFragment extends BaseFragment {
         getStories();
     }
 
-    public void getStories() {
+    private void getStories() {
+        mPullDownRefreshLayout.setRefreshing(true);
         RequestMaker requestMaker = new RequestMaker(Request.Method.GET, RequestMaker.HN_TOP_STORIES_URL, new Response.Listener() {
             @Override
             public void onResponse(Object o) {
@@ -145,11 +149,12 @@ public class StoryListFragment extends BaseFragment {
         AndHackerNewsController.getInstance(getContext()).addToRequestQueue(requestMaker);
     }
 
-    public void getItems(final Object jsonArray) {
+    private void getItems(final Object jsonArray) {
         ArrayList<String> stringArrayList = formatJsonObject(jsonArray);
         Log.d(TAG, "list fragment items array count: " + stringArrayList.size());
         // using this for all stories will take time to load all since its a huge array of ids, should be done with pagination via either RxJava or sharding the data
-        for (int i = 0; i < stringArrayList.size(); i++) {
+        // For now Im just getting the first 50
+        for (int i = 0; i < 50; i++) {
             RequestMaker requestMaker = new RequestMaker(Request.Method.GET, RequestMaker.HN_ITEM_URL + stringArrayList.get(i) + ".json", new Response.Listener() {
                 @Override
                 public void onResponse(Object o) {
@@ -174,19 +179,18 @@ public class StoryListFragment extends BaseFragment {
             requestMaker.setTag(BaseFragment.class);
             AndHackerNewsController.getInstance(getContext()).addToRequestQueue(requestMaker);
         }
-        mRecyclerView.setAdapter(mAdapter);
+        // Why this is here? moved to onViewCreated
+        //mRecyclerView.setAdapter(mAdapter);
         mPullDownRefreshLayout.setRefreshing(false);
     }
 
     public ArrayList<String> formatJsonObject(Object input) {
-        ArrayList<String> dd = new ArrayList<>();
-        dd.addAll(Arrays.asList(input.toString().replace("[[", "").replace("]]", "").split(",")));
-        return dd;
+        return new ArrayList<>(Arrays.asList(input.toString().replace("[[", "").replace("]]", "").split(",")));
     }
 
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
     }
 
