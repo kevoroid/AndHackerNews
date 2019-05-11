@@ -48,7 +48,7 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
     }
 
     public void addAdapterData(JSONObject fetchedData) {
-        Log.d(TAG, "addAdapterData length of tempAllItemsJsonArray: " + tempAllItemsJsonArray.length());
+        //Log.d(TAG, "addAdapterData length of tempAllItemsJsonArray: " + tempAllItemsJsonArray.length());
         tempAllItemsJsonArray.put(fetchedData);
     }
 
@@ -61,14 +61,14 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        Log.d(TAG, "story adapter onCreateViewHolder: ");
+        //Log.d(TAG, "story adapter onCreateViewHolder: ");
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_view, viewGroup, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        Log.d(TAG, "story adapter onBindViewHolder: ");
+        //Log.d(TAG, "story adapter onBindViewHolder: ");
         try {
             viewHolder.mPostTitle.setText(returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_STRING, RESULT_FIELD_TITLE, position));
             viewHolder.mPostInfo.setText(String.format("Posted by: %s at %s", returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_STRING, RESULT_FIELD_BY, position),
@@ -86,7 +86,7 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, "story adapter getItemCount: " + tempAllItemsJsonArray.length());
+        //Log.d(TAG, "story adapter getItemCount: " + tempAllItemsJsonArray.length());
         return tempAllItemsJsonArray.length();
     }
 
