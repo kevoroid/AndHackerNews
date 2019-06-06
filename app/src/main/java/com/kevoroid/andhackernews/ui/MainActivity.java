@@ -14,9 +14,7 @@ public class MainActivity extends BaseActivity implements StoryListAdapter.Story
     public static final String TYPE_CONSTANT_STORY = "story";
     public static final String TYPE_CONSTANT_COMMENT = "comment";
 
-    private Fragment mStoryListFragment;
-    private Fragment mStoryDetailFragment;
-    private Fragment mStoryWebViewFragment;
+	private Fragment mStoryListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,37 +30,24 @@ public class MainActivity extends BaseActivity implements StoryListAdapter.Story
         }
     }
 
-    protected void addFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().add(R.id.main_activity_fragment_container, fragment).addToBackStack(fragment.getTag()).commit();
-    }
+	@Override
+	public void onItemClick(String type, String title, String url, int commentsCount, String commentsList) {
+		switch (type) {
+			case TYPE_CONSTANT_STORY:
+				replaceFragment(StoryWebViewFragment.newInstance(title, url, commentsCount, commentsList));
+				break;
+			case TYPE_CONSTANT_COMMENT:
+				replaceFragment(StoryDetailFragment.newInstance(title, commentsCount, commentsList));
+				break;
+		}
+	}
 
-    protected void replaceFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.main_activity_fragment_container, fragment).addToBackStack(fragment.getTag())
-                .commit();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mStoryListFragment.isVisible()) {
-            finish();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public void onItemClick(String type, String title, String url, int commentsCount, String commentsList) {
-        switch (type) {
-            case TYPE_CONSTANT_STORY:
-                mStoryWebViewFragment = StoryWebViewFragment.newInstance(title, url, commentsCount, commentsList);
-                replaceFragment(mStoryWebViewFragment);
-                break;
-            case TYPE_CONSTANT_COMMENT:
-                mStoryDetailFragment = StoryDetailFragment.newInstance(title, commentsCount, commentsList);
-                replaceFragment(mStoryDetailFragment);
-                break;
-        }
-    }
+	@Override
+	public void onBackPressed() {
+		if (mStoryListFragment.isVisible()) {
+			finish();
+		} else {
+			super.onBackPressed();
+		}
+	}
 }
