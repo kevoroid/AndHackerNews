@@ -3,6 +3,8 @@ package com.kevoroid.andhackernews.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -30,6 +32,7 @@ import java.util.Arrays;
 
 public class StoryDetailFragment extends BaseFragment {
 
+    private ActionBar actionBar;
     private ViewGroup commentViewGroup;
 
     public static StoryDetailFragment newInstance(String title, int commentsCount, String commentList) {
@@ -50,6 +53,18 @@ public class StoryDetailFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (getActivity() != null) {
+            actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        }
+        if (actionBar != null) {
+            actionBar.setTitle("Comments");
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Nullable
@@ -104,11 +119,6 @@ public class StoryDetailFragment extends BaseFragment {
             jsonObjectRequest.setTag(BaseFragment.class);
             AndHackerNewsController.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     @Override

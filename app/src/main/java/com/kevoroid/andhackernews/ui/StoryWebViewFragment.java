@@ -2,8 +2,11 @@ package com.kevoroid.andhackernews.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +26,8 @@ import org.json.JSONArray;
  */
 
 public class StoryWebViewFragment extends BaseFragment {
+
+    private ActionBar actionBar;
 
     public static StoryWebViewFragment newInstance(String title, String url, int commentsCount, String commentList) {
         Bundle args = new Bundle();
@@ -46,6 +51,18 @@ public class StoryWebViewFragment extends BaseFragment {
         setHasOptionsMenu(true);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (getActivity() != null) {
+            actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        }
+        if (actionBar != null) {
+            actionBar.setTitle(getArguments() != null ? getArguments().getString("storyTitle") : getResources().getString(R.string.app_name));
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,7 +70,7 @@ public class StoryWebViewFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.story_progressbar);
@@ -70,11 +87,11 @@ public class StoryWebViewFragment extends BaseFragment {
 
                 progressBar.setProgress(progress);
                 if (progress == 100) {
-                    progressBar.setVisibility(ProgressBar.INVISIBLE);
+                    progressBar.setVisibility(ProgressBar.GONE);
                 }
             }
         });
-        webView.loadUrl(getArguments().getString("storyUrl"));
+        webView.loadUrl(getArguments() != null ? getArguments().getString("storyUrl") : null);
     }
 
     @Override
@@ -88,8 +105,8 @@ public class StoryWebViewFragment extends BaseFragment {
         switch (item.getItemId()) {
             case R.id.comments_menu:
                 StoryDetailFragment storyDetailFragment = StoryDetailFragment.newInstance(
-                        getArguments().getString("storyTitle"),
-                        getArguments().getInt("storyCommentsCount"),
+                        getArguments() != null ? getArguments().getString("storyTitle") : "No title found!",
+                        getArguments() != null ? getArguments().getInt("storyCommentsCount") : 0,
                         getArguments().getString("storyCommentsList"));
                 getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .replace(R.id.main_activity_fragment_container, storyDetailFragment).addToBackStack(storyDetailFragment.getTag()).commit();
