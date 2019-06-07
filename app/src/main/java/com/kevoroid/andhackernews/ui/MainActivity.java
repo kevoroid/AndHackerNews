@@ -2,12 +2,9 @@ package com.kevoroid.andhackernews.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 
 import com.kevoroid.andhackernews.R;
 import com.kevoroid.andhackernews.adapters.StoryListAdapter;
-
-import org.json.JSONArray;
 
 public class MainActivity extends BaseActivity implements StoryListAdapter.StoryListAdapterInterface {
 
