@@ -35,40 +35,13 @@ public class BaseFragment extends Fragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
 		inflater.inflate(R.menu.main_menu, menu);
+		super.onCreateOptionsMenu(menu, inflater);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.main_menu_about:
-				replaceFragment(AboutFragment.newInstance());
-				break;
-			case R.id.main_menu_settings:
-				replaceFragment(SettingsFragment.newInstance());
-				break;
-			case android.R.id.home:
-				if (getFragmentManager() != null) {
-					getFragmentManager().popBackStack();
-				}
-		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	protected void addFragment(Fragment fragment) {
-		if (getActivity() != null) {
-			getActivity().getSupportFragmentManager().beginTransaction().add(R.id.main_activity_fragment_container, fragment).addToBackStack(fragment.getTag()).commit();
-		}
-	}
-
-	protected void replaceFragment(Fragment fragment) {
-		if (getActivity() != null) {
-			getActivity().getSupportFragmentManager().beginTransaction()
-					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-					.replace(R.id.main_activity_fragment_container, fragment).addToBackStack(fragment.getTag())
-					.commit();
-		}
 	}
 
     @Override
