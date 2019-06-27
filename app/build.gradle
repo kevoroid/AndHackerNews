@@ -8,8 +8,8 @@ android {
         applicationId "com.kevoroid.andhackernews"
         minSdkVersion project.ANDROID_BUILD_MIN_SDK_VERSION
         targetSdkVersion project.ANDROID_BUILD_TARGET_SDK_VERSION
-        versionCode 7
-        versionName "1.4"
+        versionCode 9
+        versionName "1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
