@@ -14,4 +14,5 @@
 	<string name="slashdroid_text">SlashDroid ~ Slashdot reader!</string>
 	<string name="needmask_play_store_link">https://play.google.com/store/apps/details?id=com.kevoroid.needmask</string>
 	<string name="slashdroid_play_store_link">https://play.google.com/store/apps/details?id=com.kevoroid.slashdroid</string>
+	<string name="label_share">Share</string>
 </resources>

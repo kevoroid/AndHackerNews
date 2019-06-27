@@ -1,6 +1,7 @@
 package com.kevoroid.andhackernews.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,8 +19,6 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import com.kevoroid.andhackernews.R;
-
-import org.json.JSONArray;
 
 /**
  * Created by kevin on 5/31/17.
@@ -103,14 +102,25 @@ public class StoryWebViewFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.comments_menu:
+            case R.id.story_menu_comments:
                 StoryDetailFragment storyDetailFragment = StoryDetailFragment.newInstance(
                         getArguments() != null ? getArguments().getString("storyTitle") : "No title found!",
                         getArguments() != null ? getArguments().getInt("storyCommentsCount") : 0,
                         getArguments().getString("storyCommentsList"));
                 getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .replace(R.id.main_activity_fragment_container, storyDetailFragment).addToBackStack(storyDetailFragment.getTag()).commit();
+                return true;
+            case R.id.story_menu_share:
+                shareUrl();
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void shareUrl() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, getArguments() != null ? getArguments().getString("storyUrl") : null);
+        intent.setType("text/plain");
+        startActivity(Intent.createChooser(intent, "Share the URL"));
     }
 }
