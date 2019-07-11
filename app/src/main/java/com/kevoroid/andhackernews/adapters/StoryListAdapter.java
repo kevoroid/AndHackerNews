@@ -1,6 +1,7 @@
 package com.kevoroid.andhackernews.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,6 +60,7 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
         }
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         //Log.d(TAG, "story adapter onCreateViewHolder: ");
@@ -67,7 +69,7 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         //Log.d(TAG, "story adapter onBindViewHolder: ");
         try {
             viewHolder.mPostTitle.setText(returnObjectValueNamed(returnDefaultArrayObject(), VALUE_TYPE_STRING, RESULT_FIELD_TITLE, position));
@@ -80,7 +82,7 @@ public class StoryListAdapter extends RecyclerView.Adapter<StoryListAdapter.View
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
