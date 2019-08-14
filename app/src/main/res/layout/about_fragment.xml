@@ -58,6 +58,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginTop="4dp"
 		android:autoLink="web"
+		android:textColorLink="@color/holo_blue_dark"
 		android:text="@string/about_screen_privacy_policy_link"
 		app:layout_constraintStart_toStartOf="@+id/about_activity_privacy_title"
 		app:layout_constraintTop_toBottomOf="@+id/about_activity_privacy_title"/>
@@ -92,7 +93,6 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="8dp"
-		android:autoLink="web"
 		android:text="@string/slashdroid_text"
 		app:layout_constraintStart_toStartOf="@+id/about_activity_privacy_link"
 		app:layout_constraintTop_toBottomOf="@+id/about_activity_other_links"/>
@@ -103,6 +103,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginTop="8dp"
 		android:autoLink="web"
+		android:textColorLink="@color/holo_blue_dark"
 		android:text="@string/slashdroid_play_store_link"
 		app:layout_constraintStart_toStartOf="@+id/about_activity_privacy_link"
 		app:layout_constraintTop_toBottomOf="@+id/about_activity_andhackernews_text"/>
@@ -112,7 +113,6 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="8dp"
-		android:autoLink="web"
 		android:text="@string/needmask_text"
 		app:layout_constraintStart_toStartOf="@+id/about_activity_privacy_link"
 		app:layout_constraintTop_toBottomOf="@+id/about_activity_andhackernews_link"/>
@@ -123,6 +123,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginTop="8dp"
 		android:autoLink="web"
+		android:textColorLink="@color/holo_blue_dark"
 		android:text="@string/needmask_play_store_link"
 		app:layout_constraintStart_toStartOf="@+id/about_activity_privacy_link"
 		app:layout_constraintTop_toBottomOf="@+id/about_activity_needmask_text"/>

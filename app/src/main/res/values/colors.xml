@@ -7,4 +7,5 @@
     <color name="text_normal">#555555</color>
     <color name="text_secondary">#aaaaaa</color>
     <color name="divider">#dddddd</color>
+    <color name="holo_blue_dark">#ff0099cc</color>
 </resources>
