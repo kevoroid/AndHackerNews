@@ -2,8 +2,11 @@ package com.kevoroid.andhackernews;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.kevoroid.andhackernews.ui.MainActivity;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -16,6 +19,11 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
+
+    @Rule
+    public ActivityTestRule<MainActivity> myActivityTestRule =
+            new ActivityTestRule<>(MainActivity.class, false, false);
+
     @Test
     public void useAppContext() throws Exception {
         // Context of the app under test.
