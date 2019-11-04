@@ -1,1 +1,1 @@
-./gradlew sonarqube -Dsonar.projectKey=kevoroid_AndHackerNews -Dsonar.organization=kevoroid-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=6dcf3821370f0f96cd7b4e5ff10461bcaba36502
+./gradlew sonarqube -Dsonar.projectKey=andhackernews -Dsonar.host.url=http://localhost:9000 -Dsonar.login=60f1bcf81087c3ef2563bc771edfbb9bf253a464
