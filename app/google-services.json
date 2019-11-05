@@ -1,6 +1,6 @@
 {
   "project_info": {
-    "project_number": "845438290765",
+    "project_number": "xxx",
     "firebase_url": "https://andhackernews.firebaseio.com",
     "project_id": "andhackernews",
     "storage_bucket": "andhackernews.appspot.com"
@@ -8,27 +8,27 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:845438290765:android:9e615a1477b5478e",
+        "mobilesdk_app_id": "xxx",
         "android_client_info": {
           "package_name": "com.kevoroid.andhackernews"
         }
       },
       "oauth_client": [
         {
-          "client_id": "845438290765-qu6uo8on6g3u49pmm3f2hd0sjc0opmua.apps.googleusercontent.com",
+          "client_id": "xxx",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDBUrb49HX21kYDEuna09QjCSUMbZpCoWQ"
+          "current_key": "xxx"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "845438290765-qu6uo8on6g3u49pmm3f2hd0sjc0opmua.apps.googleusercontent.com",
+              "client_id": "xxx",
               "client_type": 3
             }
           ]
