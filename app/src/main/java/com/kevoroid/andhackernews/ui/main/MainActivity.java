@@ -10,7 +10,6 @@ import com.kevoroid.andhackernews.R;
 import com.kevoroid.andhackernews.adapters.StoryListAdapter;
 import com.kevoroid.andhackernews.ui.BaseActivity;
 import com.kevoroid.andhackernews.ui.storydetail.StoryDetailFragment;
-import com.kevoroid.andhackernews.ui.storydetail.StoryWebViewFragment;
 
 public class MainActivity extends BaseActivity implements StoryListAdapter.StoryListAdapterInterface {
 
