@@ -62,7 +62,7 @@ public class StoryDetailFragment extends BaseFragment {
             actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         }
         if (actionBar != null) {
-            actionBar.setTitle("Comments");
+            actionBar.setTitle(getResources().getString(R.string.label_comments));
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
