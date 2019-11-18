@@ -1,13 +1,18 @@
 package com.kevoroid.andhackernews.ui;
 
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
+import androidx.preference.PreferenceManager;
 import com.kevoroid.andhackernews.AndHackerNewsController;
+import com.kevoroid.andhackernews.Commons;
 import com.kevoroid.andhackernews.R;
 import com.kevoroid.andhackernews.ui.about.AboutFragment;
 import com.kevoroid.andhackernews.ui.settings.SettingsFragment;
@@ -61,6 +66,9 @@ public class BaseActivity extends AppCompatActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case R.id.main_menu_dark_mode:
+				switchDarkMode();
+				return true;
 			case R.id.main_menu_about:
 				replaceFragment(aboutFragment);
 				return true;
@@ -73,6 +81,21 @@ public class BaseActivity extends AppCompatActivity {
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@SuppressLint("ApplySharedPref")
+	private void switchDarkMode() {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean themeB = !pref.getBoolean(Commons.PREFERENCES_KEY_NIGHT_MODE, false);
+		SharedPreferences.Editor editor = pref.edit();
+
+		if (themeB) {
+			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+			editor.putBoolean(Commons.PREFERENCES_KEY_NIGHT_MODE, true).apply();
+		} else {
+			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+			editor.putBoolean(Commons.PREFERENCES_KEY_NIGHT_MODE, false).apply();
 		}
 	}
 

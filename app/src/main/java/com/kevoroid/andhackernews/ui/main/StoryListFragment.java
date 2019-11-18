@@ -36,7 +36,7 @@ import java.util.Arrays;
 
 public class StoryListFragment extends BaseFragment {
 
-    public static final String TAG = "Kev_DEBUG";
+    private static final String TAG = "StoryListFragment";
 
     private ActionBar actionBar;
     private StoryListAdapter mAdapter;
@@ -55,7 +55,7 @@ public class StoryListFragment extends BaseFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
     }
 
@@ -141,7 +141,7 @@ public class StoryListFragment extends BaseFragment {
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(getContext(), "OOPS! Houston, We have a problem!", Toast.LENGTH_LONG).show();
+                showErrMsgSomethingWentWrong();
                 mPullDownRefreshLayout.setRefreshing(false);
             }
         });
@@ -172,7 +172,7 @@ public class StoryListFragment extends BaseFragment {
 
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                    Toast.makeText(getContext(), "OOPS! Houston, We have a problem!", Toast.LENGTH_LONG).show();
+                    showErrMsgSomethingWentWrong();
                     mPullDownRefreshLayout.setRefreshing(false);
                 }
             });
@@ -203,6 +203,10 @@ public class StoryListFragment extends BaseFragment {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
+    }
+
+    public void showErrMsgSomethingWentWrong() {
+        Toast.makeText(getContext(), getResources().getString(R.string.msg_err_we_have_a_problem), Toast.LENGTH_LONG).show();
     }
 
     @Override
