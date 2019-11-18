@@ -18,4 +18,5 @@
 	<string name="slashdroid_play_store_link">https://play.google.com/store/apps/details?id=com.kevoroid.slashdroid</string>
 	<string name="msg_err_we_have_a_problem">OOPS! Houston, We have a problem!</string>
 	<string name="label_switch_dark_mode">Switch Dark Mode</string>
+	<string name="msg_no_comment">no comment!</string>
 </resources>

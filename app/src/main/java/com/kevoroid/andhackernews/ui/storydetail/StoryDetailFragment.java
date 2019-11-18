@@ -36,6 +36,10 @@ import java.util.Arrays;
 
 public class StoryDetailFragment extends BaseFragment {
 
+    private static final String STORY_TITLE = "storyTitle";
+    private static final String STORY_COMMENTS_COUNT = "storyCommentsCount";
+    private static final String STORY_COMMENTS_LIST = "storyCommentsList";
+
     private ActionBar actionBar;
     private ViewGroup commentViewGroup;
 
@@ -44,9 +48,9 @@ public class StoryDetailFragment extends BaseFragment {
     public static StoryDetailFragment newInstance(String title, int commentsCount, String commentList) {
         Bundle args = new Bundle();
         StoryDetailFragment fragment = new StoryDetailFragment();
-        args.putString("storyTitle", title);
-        args.putInt("storyCommentsCount", commentsCount);
-        args.putString("storyCommentsList", commentList);
+        args.putString(STORY_TITLE, title);
+        args.putInt(STORY_COMMENTS_COUNT, commentsCount);
+        args.putString(STORY_COMMENTS_LIST, commentList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,8 +85,8 @@ public class StoryDetailFragment extends BaseFragment {
         TextView storyCommentsCount = (TextView) v.findViewById(R.id.story_detail_comments);
         commentViewGroup = (ViewGroup) v.findViewById(R.id.story_detail_comments_container);
         if (getArguments() != null) {
-            storyTitle.setText(getArguments().getString("storyTitle"));
-            storyCommentsCount.setText(String.format("Number of comments: %s", String.valueOf(getArguments().getInt("storyCommentsCount"))));
+            storyTitle.setText(getArguments().getString(STORY_TITLE));
+            storyCommentsCount.setText(String.format("Number of comments: %s", String.valueOf(getArguments().getInt(STORY_COMMENTS_COUNT))));
         }
 
         return v;
@@ -92,8 +96,8 @@ public class StoryDetailFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getArguments() != null) {
-            commentsTotal = getArguments().getInt("storyCommentsCount", 0);;
-            getComments(getArguments().getString("storyCommentsList", "N/A"));
+            commentsTotal = getArguments().getInt(STORY_COMMENTS_COUNT, 0);;
+            getComments(getArguments().getString(STORY_COMMENTS_LIST, "N/A"));
         }
     }
 
@@ -114,7 +118,7 @@ public class StoryDetailFragment extends BaseFragment {
                             TextView textViewBy = (TextView) postCommentViews.findViewById(R.id.comments_row_by);
                             TextView textViewText = (TextView) postCommentViews.findViewById(R.id.comments_row_text);
                             textViewBy.setText(response.optString("by", "unknown"));
-                            textViewText.setText(Html.fromHtml(response.optString("text", "no comment!")));
+                            textViewText.setText(Html.fromHtml(response.optString("text", getResources().getString(R.string.msg_no_comment))));
                             textViewText.setMovementMethod(LinkMovementMethod.getInstance());
                             textViewText.setLinksClickable(true);
                             commentViewGroup.addView(postCommentViews);
