@@ -2,14 +2,18 @@ package com.kevoroid.andhackernews.ui.storydetail;
 
 import android.content.Context;
 import android.os.Bundle;
+
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -35,6 +39,8 @@ public class StoryDetailFragment extends BaseFragment {
     private ActionBar actionBar;
     private ViewGroup commentViewGroup;
 
+    private int commentsTotal;
+
     public static StoryDetailFragment newInstance(String title, int commentsCount, String commentList) {
         Bundle args = new Bundle();
         StoryDetailFragment fragment = new StoryDetailFragment();
@@ -46,7 +52,7 @@ public class StoryDetailFragment extends BaseFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
     }
 
@@ -78,18 +84,28 @@ public class StoryDetailFragment extends BaseFragment {
             storyTitle.setText(getArguments().getString("storyTitle"));
             storyCommentsCount.setText(String.format("Number of comments: %s", String.valueOf(getArguments().getInt("storyCommentsCount"))));
         }
-        getComments(getArguments().getString("storyCommentsList"));
+
         return v;
     }
 
-    public void getComments(String x) {
-        int b = getArguments().getInt("storyCommentsCount");
-        ArrayList<String> commentsIds = new ArrayList<>();
-        commentsIds.addAll(Arrays.asList(x.replace("[", "").replace("]", "").split(",")));
-        for (int i = 0; i < b; i++) {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (getArguments() != null) {
+            commentsTotal = getArguments().getInt("storyCommentsCount", 0);;
+            getComments(getArguments().getString("storyCommentsList", "N/A"));
+        }
+    }
+
+    private void getComments(String x) {
+        ArrayList<String> commentsIds = new ArrayList<>(Arrays.asList(x.replace("[", "").replace("]", "").split(",")));
+        for (int i = 0; i < commentsTotal; i++) {
             JsonObjectRequest jsonObjectRequest = null;
             try {
-                jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, RequestMaker.HN_ITEM_URL + commentsIds.get(i) + ".json", null, new Response.Listener<JSONObject>() {
+                jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+                        RequestMaker.HN_ITEM_URL + commentsIds.get(i) + ".json",
+                        null,
+                        new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
@@ -124,6 +140,11 @@ public class StoryDetailFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.overflow, menu);
     }
 
     @Override

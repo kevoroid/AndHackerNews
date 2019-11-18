@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/recycler_view_space"
     android:layout_marginEnd="@dimen/activity_margin"
     android:layout_marginStart="@dimen/activity_margin"
     android:orientation="vertical">
@@ -12,8 +11,9 @@
         android:id="@+id/comments_row_by"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/text_normal"
-        android:textIsSelectable="true"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textIsSelectable="false"
+        android:textStyle="bold"
         tools:text="Kevin" />
 
     <TextView
@@ -21,13 +21,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/text_secondary"
-        android:textIsSelectable="true"
+        android:textIsSelectable="false"
+        android:textColorLink="@color/holo_blue_dark"
         tools:text="this is my sample comment yo!" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/divider" />
 
 </LinearLayout>

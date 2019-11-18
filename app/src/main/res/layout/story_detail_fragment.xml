@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:paddingEnd="@dimen/activity_margin"
         android:paddingStart="@dimen/activity_margin"
-        android:textColor="@color/text_normal"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="24sp"
         tools:text="This is just the title of the story which can be very long!" />
 
@@ -23,7 +23,6 @@
         android:layout_marginBottom="@dimen/recycler_view_space"
         android:paddingEnd="@dimen/activity_margin"
         android:paddingStart="@dimen/activity_margin"
-        android:textColor="@color/text_secondary"
         tools:text="Number of comments: 18" />
 
     <View
@@ -31,6 +30,7 @@
         android:layout_height="0.5dp"
         android:layout_marginEnd="@dimen/activity_margin"
         android:layout_marginStart="@dimen/activity_margin"
+        android:layout_marginBottom="@dimen/recycler_view_space"
         android:background="@color/text_secondary" />
 
     <ScrollView
