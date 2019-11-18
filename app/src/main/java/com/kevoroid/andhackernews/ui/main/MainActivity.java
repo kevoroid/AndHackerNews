@@ -18,17 +18,16 @@ public class MainActivity extends BaseActivity implements StoryListAdapter.Story
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (mStoryListFragment == null) {
-            mStoryListFragment = StoryListFragment.newInstance();
-            addFragment(mStoryListFragment);
-        } else {
-            addFragment(mStoryListFragment);
-        }
+		addMainFragment();
     }
+
+	private void addMainFragment() {
+		mStoryListFragment = StoryListFragment.newInstance();
+		replaceFragment(mStoryListFragment);
+	}
 
 	@Override
 	public void onItemClick(String type, String title, String url, int commentsCount, String commentsList) {
