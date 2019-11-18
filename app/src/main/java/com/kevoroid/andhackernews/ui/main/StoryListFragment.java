@@ -45,7 +45,7 @@ public class StoryListFragment extends BaseFragment {
     private String cachedIds = null;
     private Object cachedIdsJSONArray = null;
 
-    int pastVisibleItems, visibleItemCount, totalItemCount;
+    //int pastVisibleItems, visibleItemCount, totalItemCount;
 
     public static StoryListFragment newInstance() {
         Bundle args = new Bundle();
