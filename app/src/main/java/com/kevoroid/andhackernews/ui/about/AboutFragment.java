@@ -1,13 +1,11 @@
 package com.kevoroid.andhackernews.ui.about;
 
 import android.os.Bundle;
+import android.view.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import com.kevoroid.andhackernews.R;
 import com.kevoroid.andhackernews.ui.BaseFragment;
 
@@ -45,5 +43,10 @@ public class AboutFragment extends BaseFragment {
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.about_fragment, container, false);
+	}
+
+	@Override
+	public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+		inflater.inflate(R.menu.overflow, menu);
 	}
 }
