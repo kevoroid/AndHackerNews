@@ -1,15 +1,15 @@
-package com.kevoroid.andhackernews.ui;
+package com.kevoroid.andhackernews.ui.about;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.kevoroid.andhackernews.R;
+import com.kevoroid.andhackernews.ui.BaseFragment;
 
 public class AboutFragment extends BaseFragment {
 

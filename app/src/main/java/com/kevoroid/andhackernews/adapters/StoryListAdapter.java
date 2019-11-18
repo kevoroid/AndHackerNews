@@ -1,9 +1,8 @@
 package com.kevoroid.andhackernews.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 
 import com.kevoroid.andhackernews.R;
 import com.kevoroid.andhackernews.helpers.TimeHelper;
-import com.kevoroid.andhackernews.ui.MainActivity;
+import com.kevoroid.andhackernews.ui.main.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

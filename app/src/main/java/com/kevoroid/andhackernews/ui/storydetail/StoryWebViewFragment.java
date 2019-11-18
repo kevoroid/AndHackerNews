@@ -1,13 +1,13 @@
-package com.kevoroid.andhackernews.ui;
+package com.kevoroid.andhackernews.ui.storydetail;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +19,7 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import com.kevoroid.andhackernews.R;
+import com.kevoroid.andhackernews.ui.BaseFragment;
 
 /**
  * Created by kevin on 5/31/17.
@@ -106,9 +107,11 @@ public class StoryWebViewFragment extends BaseFragment {
                 StoryDetailFragment storyDetailFragment = StoryDetailFragment.newInstance(
                         getArguments() != null ? getArguments().getString("storyTitle") : "No title found!",
                         getArguments() != null ? getArguments().getInt("storyCommentsCount") : 0,
-                        getArguments().getString("storyCommentsList"));
-                getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .replace(R.id.main_activity_fragment_container, storyDetailFragment).addToBackStack(storyDetailFragment.getTag()).commit();
+                        getArguments().getString("storyCommentsList", "N/A"));
+                if (getFragmentManager() != null) {
+                    getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .replace(R.id.main_activity_fragment_container, storyDetailFragment).addToBackStack(storyDetailFragment.getTag()).commit();
+                }
                 return true;
             case R.id.story_menu_share:
                 shareUrl();

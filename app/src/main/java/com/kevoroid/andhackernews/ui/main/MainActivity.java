@@ -1,10 +1,13 @@
-package com.kevoroid.andhackernews.ui;
+package com.kevoroid.andhackernews.ui.main;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import com.kevoroid.andhackernews.R;
 import com.kevoroid.andhackernews.adapters.StoryListAdapter;
+import com.kevoroid.andhackernews.ui.BaseActivity;
+import com.kevoroid.andhackernews.ui.storydetail.StoryDetailFragment;
+import com.kevoroid.andhackernews.ui.storydetail.StoryWebViewFragment;
 
 public class MainActivity extends BaseActivity implements StoryListAdapter.StoryListAdapterInterface {
 

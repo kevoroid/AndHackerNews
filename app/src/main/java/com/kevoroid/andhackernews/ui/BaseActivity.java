@@ -1,14 +1,16 @@
 package com.kevoroid.andhackernews.ui;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
 import com.kevoroid.andhackernews.AndHackerNewsController;
 import com.kevoroid.andhackernews.R;
+import com.kevoroid.andhackernews.ui.about.AboutFragment;
+import com.kevoroid.andhackernews.ui.settings.SettingsFragment;
 
 public class BaseActivity extends AppCompatActivity {
 

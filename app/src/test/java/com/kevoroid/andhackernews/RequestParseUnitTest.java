@@ -1,7 +1,7 @@
 package com.kevoroid.andhackernews;
 
 import com.kevoroid.andhackernews.adapters.StoryListAdapter;
-import com.kevoroid.andhackernews.ui.StoryListFragment;
+import com.kevoroid.andhackernews.ui.main.StoryListFragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

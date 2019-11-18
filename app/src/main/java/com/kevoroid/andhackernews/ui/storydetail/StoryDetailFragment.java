@@ -1,10 +1,10 @@
-package com.kevoroid.andhackernews.ui;
+package com.kevoroid.andhackernews.ui.storydetail;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -20,7 +20,7 @@ import com.kevoroid.andhackernews.AndHackerNewsController;
 import com.kevoroid.andhackernews.R;
 import com.kevoroid.andhackernews.api.RequestMaker;
 
-import org.json.JSONArray;
+import com.kevoroid.andhackernews.ui.BaseFragment;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
