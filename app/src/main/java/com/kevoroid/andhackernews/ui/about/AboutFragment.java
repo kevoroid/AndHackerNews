@@ -36,7 +36,7 @@ public class AboutFragment extends BaseFragment {
 			actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 		}
 		if (actionBar != null) {
-			actionBar.setTitle("About");
+			actionBar.setTitle(getResources().getString(R.string.label_about));
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 	}
@@ -44,7 +44,6 @@ public class AboutFragment extends BaseFragment {
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.about_fragment, container, false);
-		return v;
+		return inflater.inflate(R.layout.about_fragment, container, false);
 	}
 }

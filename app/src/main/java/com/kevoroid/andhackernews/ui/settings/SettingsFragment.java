@@ -36,7 +36,7 @@ public class SettingsFragment extends BaseFragment {
 			actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 		}
 		if (actionBar != null) {
-			actionBar.setTitle("Settings");
+			actionBar.setTitle(R.string.label_settings);
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 	}
