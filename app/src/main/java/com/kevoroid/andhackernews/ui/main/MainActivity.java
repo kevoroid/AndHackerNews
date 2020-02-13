@@ -13,18 +13,20 @@ import com.kevoroid.andhackernews.ui.storydetail.StoryDetailFragment;
 
 public class MainActivity extends BaseActivity implements StoryListAdapter.StoryListAdapterInterface {
 
-    public static final String TYPE_CONSTANT_STORY = "story";
-    public static final String TYPE_CONSTANT_COMMENT = "comment";
+	public static final String TYPE_CONSTANT_STORY = "story";
+	public static final String TYPE_CONSTANT_COMMENT = "comment";
 
 	private Fragment mStoryListFragment;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
 
-		addMainFragment();
-    }
+		if (savedInstanceState == null) {
+			addMainFragment();
+		}
+	}
 
 	private void addMainFragment() {
 		mStoryListFragment = StoryListFragment.newInstance();
@@ -57,7 +59,8 @@ public class MainActivity extends BaseActivity implements StoryListAdapter.Story
 
 	@Override
 	public void onBackPressed() {
-		if (mStoryListFragment.isVisible()) {
+		//if (mStoryListFragment.isVisible()) {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 			finish();
 		} else {
 			super.onBackPressed();
